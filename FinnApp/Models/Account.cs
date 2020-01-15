@@ -18,7 +18,7 @@ namespace FinnApp.Models
 
         public string Name { get; set; }
 
-        public virtual int PersonId { get; set; }
+        public virtual string PersonId { get; set; }
 
         [ForeignKey("PersonId")]
         public virtual Person Person { get; set; }
