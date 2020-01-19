@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FinnApp.Data.Repository
 {
-    public class DBRepository<TEntity> : IDbRepository<TEntity>
+    public class DbRepository<TEntity> : IDbRepository<TEntity>
         where TEntity : class, IDeletableEntity
     {
-        public DBRepository(ApplicationDbContext context)
+        public DbRepository(ApplicationDbContext context)
         {
             this.Context = context ?? throw new ArgumentNullException(nameof(context));
             this.DbSet = this.Context.Set<TEntity>();
