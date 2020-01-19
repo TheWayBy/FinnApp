@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinnApp.Data.Repository.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinnApp.Models
 {
-    public class Expense
+    public class Expense : BaseModel<int>
     {
-        [Key]
-        public int Id { get; set; }
-
         public decimal Ammount { get; set; }
 
         public int CategoryId { get; set; }
