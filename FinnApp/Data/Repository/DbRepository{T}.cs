@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FinnApp.Data.Repository
 {
     public class DbRepository<TEntity> : IDbRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletableEntity, IIdentifierableEntity
     {
         public DbRepository(ApplicationDbContext context)
         {
@@ -19,13 +19,15 @@ namespace FinnApp.Data.Repository
 
         protected ApplicationDbContext Context { get; set; }
 
-        public virtual IQueryable<TEntity> All() => this.DbSet.Where(x => !x.IsDeleted);
+        public IQueryable<TEntity> All() => this.DbSet.Where(x => !x.IsDeleted);
 
         public IQueryable<TEntity> AllWithDeleted() => this.All();
 
-        public virtual Task AddAsync(TEntity entity) => this.DbSet.AddAsync(entity);
+        public TEntity GetByIdentifier(Guid identifier) => this.DbSet.FirstOrDefault(x => x.Identifier == identifier);
 
-        public virtual void Update(TEntity entity)
+        public void Add(TEntity entity) => this.DbSet.Add(entity);
+
+        public void Update(TEntity entity)
         {
             var entry = this.Context.Entry(entity);
             if (entry.State == EntityState.Detached)
@@ -37,7 +39,7 @@ namespace FinnApp.Data.Repository
         }
 
         public Task<int> SaveChangesAsync() => this.Context.SaveChangesAsync();
-        
+
         public void HardDelete(TEntity entity) => this.DbSet.Remove(entity);
 
         public void Undelete(TEntity entity)

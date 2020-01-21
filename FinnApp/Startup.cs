@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FinnApp.Models;
 using FinnApp.Data.Repository;
+using FinnApp.Services.Contracts;
+using FinnApp.Services;
 
 namespace FinnApp
 {
@@ -36,7 +38,11 @@ namespace FinnApp
                .AddRoles<ApplicationRole>()
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // Database
             services.AddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
+
+            // Services
+            services.AddTransient<ICategoryService, CategoryService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

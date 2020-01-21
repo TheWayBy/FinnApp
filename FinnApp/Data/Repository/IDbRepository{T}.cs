@@ -1,17 +1,20 @@
 ﻿using FinnApp.Data.Repository.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FinnApp.Data.Repository
 {
     public interface IDbRepository<TEntity>
-        where TEntity : class, IDeletableEntity
+        where TEntity : class, IDeletableEntity, IIdentifierableEntity
     {
         IQueryable<TEntity> All();
 
         IQueryable<TEntity> AllWithDeleted();
 
-        Task AddAsync(TEntity entity);
+        TEntity GetByIdentifier(Guid identifier);
+
+        void Add(TEntity entity);
 
         void Update(TEntity entity);
 
